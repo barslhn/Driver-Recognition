@@ -10,9 +10,9 @@ The main goal of the project is to verify the identity of drivers using video re
 
 The project consists of three main Python files:  
 
-- **yuz_kodlayici.py** → Creates the face recognition database. It processes the photos in the **DRIVER PHOTOS** folder, extracts facial features, and saves them to the **yuz_verisi_facenet.pkl** file.
+- **yuz_kodlayici.py** → Creates the face recognition database. It processes the photos in the **SÜRÜCÜ FOTOĞRAFLARI/DRİVER PHOTOS** folder, extracts facial features, and saves them to the **yuz_verisi_facenet.pkl** file.
 - **canli_tanima.py** → Performs facial recognition on the live video stream from the computer camera. It displays the matched individuals on the screen.  
-- **video_eslestirici.py** → Analyzes videos in the **Videos** folder, matches the detected driver with the database, and saves a detailed report to the **results** folder.  
+- **video_eslestirici.py** → Analyzes videos in the **Videolar/Videos** folder, matches the detected driver with the database, and saves a detailed report to the **sonuclar/results** folder.  
 
 ---
 
@@ -55,21 +55,21 @@ pip install -r requirements.txt
 ## 📖 User Guide  
 
 ### Step 1: Creating the Face Database  
-- Place the driver photos in the **DRIVER PHOTOS** folder as `first_name_last_name.jpg`.  
+- Place the driver photos in the **SÜRÜCÜ FOTOĞRAFLARI/DRİVER PHOTOS** folder as `first_name_last_name.jpg`.  
 - Run:  
 
 ```bash
-python face_encoder.py
+python yuz_kodlayici.py
 ```
 
-At the end of this process, **face_data_facenet.pkl** will be created automatically.  
+At the end of this process, **yuz_verisi_facenet.pkl/face_data_facenet.pkl** will be created automatically.  
 
 ### Step 2: Recognition Processes  
 
 #### Option A: Recognition with Live Camera  
 
 ```bash
-python live_recognition.py
+python canli_tanima.py
 ```
 
 - Face recognition is performed on the image from the camera.  
@@ -80,10 +80,10 @@ python live_recognition.py
 - Run:  
 
 ```bash
-python video_matcher.py
+python video_eslestirici.py
 ```
 - Results will be displayed in the terminal.  
-- A detailed report is available in **results/matching_report.txt**.  
+- A detailed report is available in **sonuclar/eslesme_raporu.txt-results/matching_report.txt**.  
 
 ---
 
@@ -91,33 +91,41 @@ python video_matcher.py
 
 ```
 /Driver-Recognition
-|-- live_recognition.py
-|-- video_matcher.py
-|-- face_encoder.py
+|-- canli_tanima.py
+|-- video_eslestirici.py
+|-- yuz_kodlayici.py
 |-- README.md
-|-- face_data_facenet.pkl           (Created database)
+|-- yuz_verisi_facenet.pkl           (Created database)
 |-- ffmpeg.exe
 |-- ffplay.exe                       (.exe files must be downloaded by the user)
 |-- ffprobe.exe
 |-- requirements.txt                 (List of required libraries)
-|-- /DRIVER PHOTOS/            (User must create)
+|-- /SÜRÜCÜ FOTOĞRAFLARI/            (User must create)
 |   |-- first_name_last_name_1.jpg
 |   |-- first_name_last_name_2.png
-|-- /Videos/                       (User must create)
+|-- /Videolar/                       (User must create)
 |   |-- video_recording_1.mp4
 |   |-- video_recording_2.grec
-|-- /results/                       (Automatically created)
-|-- /converted_videos/         (Automatically created)
+|-- /sonuclar/                       (Automatically created)
+|-- /donusturulmus_videolar/         (Automatically created)
 |-- /venv/                           (Virtual environment, User must create)
 ```
 ---
 
 ## ✅ Summary  
 
-- **face_encoder.py** → Creating a face database  
-- **live_recognition.py** → Live camera recognition  
-- **video_matcher.py** → Video file analysis  
+- **yuz_kodlayici.py** → Creating a face database  
+- **canli_tanima.py** → Live camera recognition  
+- **video_eslestirici.py** → Video file analysis  
 
 ---
 
 👤 Developed with **Python + Deep Learning (FaceNet, MTCNN)**.
+
+---
+
+## 📝 Notes 
+
+- Terms followed by `/tr` are the **Turkish translation** of the English term.  
+- Terms followed by `-tr` are also **Turkish equivalents**, sometimes used for folder or file names.  
+- This helps the reader understand folder names or context in both languages.
