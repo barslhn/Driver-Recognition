@@ -49,7 +49,23 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-> **Not:** Eğer kütüphane kurulumunda sorun yaşarsanız (özellikle büyük boyutlu `torch` nedeniyle), **yuz_kodlayici.py** dosyasını Google Colab’da çalıştırarak `.pkl` dosyasını oluşturabilirsiniz. Daha sonra bu dosyayı indirip proje ana klasörüne koymanız yeterlidir.  
+> **Not:** Eğer kütüphane kurulumunda sorun yaşarsanız (özellikle büyük boyutlu `torch` nedeniyle), **yuz_kodlayici_google_colab.py** dosyasını Google Colab’da çalıştırarak `.pkl` dosyasını oluşturabilirsiniz. Daha sonra bu dosyayı indirip proje ana klasörüne koymanız yeterlidir.  
+
+🌐 Google Colab için Çalıştırma/Google Colab’a gidin: https://colab.research.google.com/
+
+Colab ortamında bilgisayara kurulum yapamayacağınız için **yuz_kodlayici_google_colab.py** kodunu yapıştırın ve çalıştırın.
+- Tüm sürücü fotoğraflarını bir .zip dosyasında hazırlayın (örn: SÜRÜCÜ FOTOĞRAFLARI.zip).
+- Aşağıdaki kodu çalıştırın, size dosya seçme penceresi açılacak.
+- Çıktı olarak .pkl dosyası oluşacak, bunu indirip bilgisayarınızdaki proje klasörüne koyabilirsiniz.
+
+Not: Colab, GPU desteği sağladığı için büyük veri ve yüz kodlamaları daha hızlı çalışır.
+
+**Projeyi çalıştırmak için aşağıdaki Python kütüphaneleri gerekir:**
+
+```bash
+pip install torch==2.2.2 torchvision==0.17.2 facenet-pytorch==2.6.0 \
+            pillow==10.2.0 opencv-python==4.12.0 numpy==1.26.4
+```
 
 ---
 
@@ -97,7 +113,9 @@ python video_eslestirici.py
 |-- canli_tanima.py
 |-- video_eslestirici.py
 |-- yuz_kodlayici.py
+|-- yuz_kodlayici_google_colab.py
 |-- README.md
+|-- README_TR.md
 |-- yuz_verisi_facenet.pkl           (Oluşturulan veritabanı)
 |-- ffmpeg.exe
 |-- ffplay.exe                       (.exe'leri kullanıcı indirmeli)
@@ -120,7 +138,7 @@ python video_eslestirici.py
 
 - **yuz_kodlayici.py** → Yüz veritabanı oluşturma  
 - **canli_tanima.py** → Canlı kamera tanıma  
-- **video_eslestirici.py** → Video dosyası analizi  
+- **video_eslestirici.py** → Video eşleştirme analizi  
 
 ---
 

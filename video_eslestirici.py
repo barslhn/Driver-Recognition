@@ -74,7 +74,6 @@ def videolari_hazirla(temizle=False):
     islenen_video_sayisi = 0
     for kok_dizin, _, dosyalar in os.walk(VIDEO_ANA_KLASORU):
         for dosya_adi in dosyalar:
-            # Dış kamera videolarını atla
             if "20010100" in dosya_adi:
                 continue
             
@@ -106,10 +105,6 @@ def videolari_hazirla(temizle=False):
     return True
 
 def videolari_analiz_et(bilinen_yuz_kodlamalari, bilinen_yuz_isimleri):
-    """
-    Dönüştürülen video klasöründeki her bir videoyu analiz eder,
-    sürücüyü bulur ve bir rapor oluşturur.
-    """
     print("\n--- Video Analizi Başlıyor ---")
     if not os.path.exists(SONUC_KLASORU):
         os.makedirs(SONUC_KLASORU)
@@ -144,10 +139,8 @@ def videolari_analiz_et(bilinen_yuz_kodlamalari, bilinen_yuz_isimleri):
                 if frame_count % 10 != 0:
                     continue
 
-                # Çerçevenin boyutlarını al
                 frame_height, frame_width, _ = frame.shape
 
-                # Görüntünün tamamında yüz tespiti yap
                 frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 boxes, _ = mtcnn.detect(frame_rgb)
                 
@@ -158,22 +151,17 @@ def videolari_analiz_et(bilinen_yuz_kodlamalari, bilinen_yuz_isimleri):
                     
                     scores = []
                     for (x1, y1, x2, y2) in boxes:
-                        # 1. Yüzün büyüklüğüne göre puan (normalleştirilmiş alan)
                         face_area = (x2 - x1) * (y2 - y1)
                         normalized_area = face_area / (frame_width * frame_height)
                         
-                        # 2. Yüzün konumuna göre puan (sağ tarafa yakınlık)
                         face_center_x = (x1 + x2) / 2
                         normalized_pos_x = face_center_x / frame_width
                         
-                        # Sürücünün genellikle sağ tarafta olduğu varsayımıyla, sağa yaklaştıkça puan artar.
                         position_score = normalized_pos_x
                         
-                        # Toplam puanı hesapla (ağırlıklandırılmış ortalama)
                         total_score = (BUYUKLUK_AGIRLIGI * normalized_area) + (KONUM_AGIRLIGI * position_score)
                         scores.append(total_score)
                     
-                    # En yüksek puanı alan yüzü seç
                     selected_face_index = np.argmax(scores)
                     selected_face_box = boxes[selected_face_index]
                 
@@ -181,7 +169,6 @@ def videolari_analiz_et(bilinen_yuz_kodlamalari, bilinen_yuz_isimleri):
                     (x1, y1, x2, y2) = selected_face_box
                     cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
                     
-                    # Seçilen yüzü kırp ve işle
                     yuz_crop = mtcnn.extract(frame_rgb, [selected_face_box], None)
                     
                     if yuz_crop is None:
@@ -205,7 +192,6 @@ def videolari_analiz_et(bilinen_yuz_kodlamalari, bilinen_yuz_isimleri):
                         print(f"ResNet modelinde hata oluştu, yüz atlanıyor: {e}")
                         continue
                 
-                # --- Görselleştirme ---
                 cv2.imshow("Driver Frame", frame) 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
@@ -236,7 +222,6 @@ def videolari_analiz_et(bilinen_yuz_kodlamalari, bilinen_yuz_isimleri):
     cv2.destroyAllWindows()
     print(f"--- Tüm analiz tamamlandı ✅ Rapor: {rapor_path} ---")
 
-# --- Ana Çalışma ---
 if __name__ == "__main__":
     bilinen_yuz_kodlamalari, bilinen_yuz_isimleri = yuz_veritabanini_yukle()
     tercih = input(f"'{DONUSTURULEN_KLASOR}' klasörünü temizleyip sıfırdan başlatmak ister misiniz? (evet/hayır): ").lower()

@@ -1,4 +1,7 @@
-opencv-python
-facenet-pytorch
-numpy
-torch
+numpy<2
+torch==2.2.2
+torchvision==0.17.2
+facenet-pytorch==2.6.0
+pillow==10.2.0
+opencv-python==4.12.0
+
